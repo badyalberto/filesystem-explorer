@@ -1,0 +1,32 @@
+body {
+  height: 100vh;
+}
+.header-logo {
+  position: absolute;
+  left: 25px;
+}
+
+.general-button-container {
+  width: 10%;
+}
+
+.general-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.general-button-img {
+  width: 20px;
+}
+
+.actions-button {
+  width: 20px;
+}
+
+.type-icon{
+  width: 30px;
+}
