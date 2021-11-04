@@ -3,7 +3,7 @@
 function showFoldersFile($path = '/')
 {
     $arrayTree = [];
-    $server_root = $_SERVER['DOCUMENT_ROOT'] . '/filesystem-explorer/modules/uploads' . $path;
+    $server_root = getcwd() . '/modules/uploads' . $path;
 
     $tree = scandir($server_root);
 
