@@ -21,6 +21,7 @@
   "homepage": "https://github.com/badyalberto/filesystem-explorer#readme",
   "dependencies": {
     "jquery": "^3.6.0",
-    "jstree": "^3.3.12"
+    "jstree": "^3.3.12",
+    "npm": "^8.1.2"
   }
 }

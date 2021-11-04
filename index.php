@@ -1,5 +1,6 @@
 <?php
 require_once('./modules/Utils.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,7 +56,11 @@ require_once('./modules/Utils.php');
           </nav>
           <div class="me-3 d-flex justify-content-around general-button-container">
             <button class="general-button" ><img class="general-button-img" src="./assets/img/icons/create.svg" alt="" srcset="" /></button>
-            <button class="general-button" ><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></button>
+            <form method="post" action="modules/uploadFile.php" enctype="multipart/form-data">
+            <input type ="file" name="file" class="general-button" onchange="form.submit()"><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></input>
+            <input type ="submit" value="Upload" class="d-none"></input>
+            </form>
+            <span id="uploaded_image"><?php if(isset($_FILES))print_r($_FILES); ?></span>
           </div>
         </div>
         <table class="w-100 text-center">
@@ -104,3 +109,4 @@ require_once('./modules/Utils.php');
     </main>
   </body>
 </html>
+
