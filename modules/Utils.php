@@ -49,32 +49,11 @@ function uploadFile(){
 
         if (!in_array($extension, $acceptedExtensions)) echo "wrong type, the accepted extensions are the following: ". print_r($acceptedExtensions);
         else
-        {      
-            echo "this is uploading now";
-             
-            $location = $_SERVER['DOCUMENT_ROOT']."/".$fileName;
+        {                            
+            $location = getcwd()."/".$fileName;      
             echo $location;
-
             move_uploaded_file($_FILES['file']['tmp_name'], $location);
+            //Location to be discussed
+            header("Location: ../");
         };
-    }
-
-
-    //  $property= document.getElementById("file");
-
-
-
-    // https://www.php.net/manual/es/features.file-upload.post-method.php
-    // https://www.php.net/manual/es/function.move-uploaded-file.php
-
-    //NO FORM https://www.youtube.com/watch?v=ut-NcYgFRKI
-};
-
-
-
-
-function deleteFile(){
-    // https://www.youtube.com/watch?v=UNAQAHtWDdc
-    // https://www.php.net/manual/en/function.delete
-};
-
+    }};
