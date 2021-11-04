@@ -1,6 +1,7 @@
 <?php
-require_once('./modules/Utils.php');
-
+require_once './modules/Utils.php';
+require_once './modules/showFoldersFile.php';
+$tree = showFoldersFile();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +61,6 @@ require_once('./modules/Utils.php');
             <input type ="file" name="file" class="general-button" onchange="form.submit()"><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></input>
             <input type ="submit" value="Upload" class="d-none"></input>
             </form>
-            <span id="uploaded_image"><?php if(isset($_FILES))print_r($_FILES); ?></span>
           </div>
         </div>
         <table class="w-100 text-center">
@@ -76,33 +76,7 @@ require_once('./modules/Utils.php');
           </thead>
 
           <tbody>
-            <tr>
-              <td>icon</td>
-              <td>file.txt</td>
-              <td>10/09/2020</td>
-              <td>21/09/2020</td>
-              <td><img class="type-icon" src="<?= getIcon('jpg');?>" /></td>
-              <td>
-                <span><img class="actions-button" src="./assets/img/icons/edit.svg" alt="" srcset="" /></span>
-                <span><img class="actions-button" src="./assets/img/icons/delete.svg" alt="" srcset="" /></span>
-              </td>
-            </tr>
-            <tr>
-              <td>icon</td>
-              <td>file.txt</td>
-              <td>10/09/2020</td>
-              <td>21/09/2020</td>
-              <td><img class="type-icon" src="<?= getIcon('doc');?>" /></td>
-              <td>E X</td>
-            </tr>
-            <tr>
-              <td>icon</td>
-              <td>file.txt</td>
-              <td>10/09/2020</td>
-              <td>21/09/2020</td>
-              <td><img class="type-icon" src="<?= getIcon('doc');?>" /></td>
-              <td>E X</td>
-            </tr>
+           <?php echo printFolders($tree)?>
           </tbody>
         </table>
       </article>
