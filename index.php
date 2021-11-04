@@ -1,6 +1,7 @@
 <?php
-//require_once './modules/Utils.php';
+require_once './modules/Utils.php';
 require_once './modules/showFoldersFile.php';
+require_once './modules/printFoldersFile.php';
 $tree = showFoldersFile();
 ?>
 <!DOCTYPE html>
@@ -13,18 +14,16 @@ $tree = showFoldersFile();
     <link rel="stylesheet" href="./node_modules/jstree/dist/themes/default/style.min.css" />
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./node_modules/jstree/dist/jstree.min.js"></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-      crossorigin="anonymous"
+      src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
       defer
     ></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/rr-1.2.8/datatables.min.css"/>
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/rr-1.2.8/datatables.min.js"></script>
+<script src="./assets/js/datatable.js" defer></script>
+  </head>
   </head>
 
   <body>
@@ -39,12 +38,13 @@ $tree = showFoldersFile();
     </header>
 
     <main class="d-flex">
-      <aside class="w-25">
-        <ul>
+      <aside class="w-25" id="tree">
+        <!-- <ul>
           <li>Root</li>
           <li>Folder 1</li>
           <li>Folder 2</li>
-        </ul>
+        </ul> -->
+        <?php showFiles(getcwd() . "/modules/uploads/");?>
       </aside>
       <article class="w-75">
         <div class="d-flex justify-content-between">
@@ -60,7 +60,7 @@ $tree = showFoldersFile();
             <button class="general-button" ><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></button>
           </div>
         </div>
-        <table class="w-100 text-center">
+        <table class="w-100 text-center" id="table">
           <thead>
             <tr>
               <th>File img</th>
@@ -73,7 +73,7 @@ $tree = showFoldersFile();
           </thead>
 
           <tbody>
-           <?php echo printFolders($tree)?>
+           <?php echo printFolders($tree) ?>
           </tbody>
         </table>
       </article>

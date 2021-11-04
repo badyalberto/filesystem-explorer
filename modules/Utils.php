@@ -37,3 +37,38 @@ function getIcon($type)
             break;
     }
 }
+
+function showFiles($path){
+    $dir = opendir($path);
+    $files = array();
+    $html = '<ul>';
+
+    while ($current = readdir($dir)){
+        if( $current != "." && $current != "..") {
+            echo $current;
+            if(is_dir($path.$current)) {
+                $cont = strlen(getcwd()."/modules/uploads/");
+                $rest = substr($path.$current, $cont);
+                $html = $html."<li>$rest</li>";
+                showFiles($path.$current.'/',$html);
+            }
+            else {
+                $cont = strlen(getcwd()."/modules/uploads/");
+                $rest = substr($path.$current, $cont);
+                $ext = substr($path.$current, -3,3);
+                echo "./assets/img/icons/".$ext.".svg";
+                $var = "./assets/img/icons/".$ext.".svg";
+                //echo $rest;
+                $html = $html."<li data-jstree='{\"icon\":\"$var\"}'>".$rest."</li>";
+                $files[] = $current;
+            }
+        }
+    }
+    /* echo '<h6>'.$path.'</h6>';
+    echo '<ul>';
+    for($i=0; $i<count( $files ); $i++){
+        echo '<li>'.$files[$i]."</li>";
+    } */
+    $html = $html.'</ul>';
+    echo $html;
+}
