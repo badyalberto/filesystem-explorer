@@ -2,7 +2,7 @@
 
 function getIcon($type)
 {
-    
+
     switch ($type) {
         case 'doc':
             return "./assets/img/icons/doc.svg";
@@ -39,21 +39,30 @@ function getIcon($type)
 }
 
 
-function uploadFile(){
-    if($_FILES['file']['name']!=='')
-    {
-        $fileName=$_FILES['file']['name'];
+function uploadFile()
+{
+    if ($_FILES['file']['name'] !== '') {
+        $fileName = $_FILES['file']['name'];
         $test = explode(".", $_FILES['file']['name']);
-        $extension = end ($test);
-        $acceptedExtensions=['doc','csv', 'jpg','png','txt','ppt','odt','pdf','zip','rar','exe','svg','mp3','mp4'];
+        $extension = end($test);
+        $acceptedExtensions = ['doc', 'csv', 'jpg', 'png', 'txt', 'ppt', 'odt', 'pdf', 'zip', 'rar', 'exe', 'svg', 'mp3', 'mp4'];
 
-        if (!in_array($extension, $acceptedExtensions)) echo "wrong type, the accepted extensions are the following: ". print_r($acceptedExtensions);
-        else
-        {                            
-            $location = getcwd()."/".$fileName;      
+        if (!in_array($extension, $acceptedExtensions)) echo "wrong type, the accepted extensions are the following: " . print_r($acceptedExtensions);
+        else {
+            $location = getcwd() . "/" . $fileName;
             echo $location;
             move_uploaded_file($_FILES['file']['tmp_name'], $location);
             //Location to be discussed
             header("Location: ../");
         };
-    }};
+    }
+};
+
+function editFile($oldName)
+{
+    if (isset($_POST['newName'])) {
+        $newName = $_POST['newName'];
+        echo $newName;
+        // rename($oldName, $newName);
+    }
+};

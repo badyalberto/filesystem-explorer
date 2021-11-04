@@ -16,15 +16,13 @@ function showFoldersFile($path = '/')
 
         if (count($infoFile) === 4) {
             $type = $infoFile['extension'];
-
         }
 
-        $json = json_encode(array('url' => $server_root.$name,'type' => $type, 'name' => $name, 'creationDate' => $cretionDate, 'editDate' => $editDate, 'icon' => "./assets/img/icons/" . $type . ".svg", ));
+        $json = json_encode(array('url' => $server_root . $name, 'type' => $type, 'name' => $name, 'creationDate' => $cretionDate, 'editDate' => $editDate, 'icon' => "./assets/img/icons/" . $type . ".svg",));
         array_push($arrayTree, $json);
     }
 
     return $arrayTree;
-
 }
 
 function printFolders($tree)
@@ -39,7 +37,7 @@ function printFolders($tree)
         $file = json_decode($tree[$i]);
         foreach ($file as $key => $value) {
             $url = '';
-            if($key === 'url'){
+            if ($key === 'url') {
                 //echo  $value."<br>";
                 $url = $value;
                 //echo $url."<br>";
@@ -54,14 +52,12 @@ function printFolders($tree)
                     } else {
                         $html = $html . "<td>$value</td>";
                     }
-
                 }
-
             }
         }
         $html = $html . "<td>
-           <span><img class='actions-button' src='./assets/img/icons/edit.svg'  /></span>
-           <span><img class='actions-button' src='./assets/img/icons/delete.svg'  /></span>
+           <span data-bs-toggle='modal' data-bs-target='#renameModal'><img class='actions-button' src='./assets/img/icons/edit.svg'/></span>
+           <span><img class='actions-button' src='./assets/img/icons/delete.svg'/></span>
          </td></tr>";
     }
 

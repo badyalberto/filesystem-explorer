@@ -49,9 +49,9 @@ $tree = showFoldersFile();
         <div class="me-3 d-flex justify-content-around general-button-container">
           <button class="general-button" data-bs-toggle="modal" data-bs-target="#myModal"><img class="general-button-img" src="./assets/img/icons/create.svg" alt="" srcset="" /></button>
           <form method="post" action="modules/uploadFile.php" enctype="multipart/form-data">
-            <input type ="file" name="file" class="general-button" onchange="form.submit()"><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></input>
-            <input type ="submit" value="Upload" class="d-none"></input>
-            </form>
+            <input type="file" name="file" class="general-button" onchange="form.submit()"><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></input>
+            <input type="submit" value="Upload" class="d-none"></input>
+          </form>
         </div>
       </div>
       <table class="w-100 text-center">
@@ -66,15 +66,16 @@ $tree = showFoldersFile();
           </tr>
         </thead>
         <tbody>
-            <?php echo printFolders($tree)?>
+          <?php echo printFolders($tree) ?>
         </tbody>
       </table>
     </article>
   </main>
 </body>
+
 </html>
 
-    <!-- <main class="d-flex">
+<!-- <main class="d-flex">
       <aside class="w-25">
         <ul>
           <li>Root</li>
@@ -98,17 +99,18 @@ $tree = showFoldersFile();
             <input type ="submit" value="Upload" class="d-none"></input>
             </form>
           <tbody>
-           <?php echo printFolders($tree)?>
+           <?php echo printFolders($tree) ?>
           </tbody>
         </table>
       </article>
     </main> -->
-  </body>
+</body>
+
 </html>
 
-        
 
-    
+
+
 <div class="modal" tabindex="-1" id="myModal">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -127,12 +129,34 @@ $tree = showFoldersFile();
         </form>
       </div>
       <?php
-          if (isset($_POST["create-folder-btn"])) {
-            $path = getcwd();
-            $folderName = $_POST["folder-name"]; ;
-            mkdir("$path/modules/uploads/$folderName", 0777);
-          };
-        ?>
-      </div>
+      if (isset($_POST["create-folder-btn"])) {
+        $path = getcwd();
+        $folderName = $_POST["folder-name"];;
+        mkdir("$path/modules/uploads/$folderName", 0777);
+      };
+      ?>
+    </div>
   </div>
+</div>
+
+
+
+
+<div class="modal" id="renameModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Rename File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" action="modules/editFile.php">
+        <div class="modal-body">
+          <input name="newName" placeholder="input your desired name here"></input>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save changes</button>
+      </form>
+    </div>
+  </div>
+</div>
 </div>
