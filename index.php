@@ -48,7 +48,10 @@ $tree = showFoldersFile();
         </nav>
         <div class="me-3 d-flex justify-content-around general-button-container">
           <button class="general-button" data-bs-toggle="modal" data-bs-target="#myModal"><img class="general-button-img" src="./assets/img/icons/create.svg" alt="" srcset="" /></button>
-          <button class="general-button"><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></button>
+          <form method="post" action="modules/uploadFile.php" enctype="multipart/form-data">
+            <input type ="file" name="file" class="general-button" onchange="form.submit()"><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></input>
+            <input type ="submit" value="Upload" class="d-none"></input>
+            </form>
         </div>
       </div>
       <table class="w-100 text-center">
@@ -71,7 +74,7 @@ $tree = showFoldersFile();
 </body>
 </html>
 
-    <main class="d-flex">
+    <!-- <main class="d-flex">
       <aside class="w-25">
         <ul>
           <li>Root</li>
@@ -99,7 +102,7 @@ $tree = showFoldersFile();
           </tbody>
         </table>
       </article>
-    </main>
+    </main> -->
   </body>
 </html>
 
