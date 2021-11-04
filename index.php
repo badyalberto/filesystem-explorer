@@ -1,5 +1,7 @@
 <?php
-require_once('./modules/Utils.php');
+//require_once './modules/Utils.php';
+require_once './modules/showFoldersFile.php';
+$tree = showFoldersFile();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,33 +73,7 @@ require_once('./modules/Utils.php');
           </thead>
 
           <tbody>
-            <tr>
-              <td>icon</td>
-              <td>file.txt</td>
-              <td>10/09/2020</td>
-              <td>21/09/2020</td>
-              <td><img class="type-icon" src="<?= getIcon('jpg');?>" /></td>
-              <td>
-                <span><img class="actions-button" src="./assets/img/icons/edit.svg" alt="" srcset="" /></span>
-                <span><img class="actions-button" src="./assets/img/icons/delete.svg" alt="" srcset="" /></span>
-              </td>
-            </tr>
-            <tr>
-              <td>icon</td>
-              <td>file.txt</td>
-              <td>10/09/2020</td>
-              <td>21/09/2020</td>
-              <td><img class="type-icon" src="<?= getIcon('doc');?>" /></td>
-              <td>E X</td>
-            </tr>
-            <tr>
-              <td>icon</td>
-              <td>file.txt</td>
-              <td>10/09/2020</td>
-              <td>21/09/2020</td>
-              <td><img class="type-icon" src="<?= getIcon('doc');?>" /></td>
-              <td>E X</td>
-            </tr>
+           <?php echo printFolders($tree)?>
           </tbody>
         </table>
       </article>

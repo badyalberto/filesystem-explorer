@@ -2,6 +2,7 @@
 
 function getIcon($type)
 {
+    
     switch ($type) {
         case 'doc':
             return "./assets/img/icons/doc.svg";
