@@ -49,7 +49,7 @@ function uploadFile()
 
         if (!in_array($extension, $acceptedExtensions)) echo "wrong type, the accepted extensions are the following: " . print_r($acceptedExtensions);
         else {
-            $location = getcwd() . "/" . $fileName;
+            $location = getcwd() . '/uploads/' . $fileName;
             echo $location;
             move_uploaded_file($_FILES['file']['tmp_name'], $location);
             //Location to be discussed
@@ -64,5 +64,6 @@ function editFile($oldName)
         $newName = $_POST['newName'];
         echo $newName;
         // rename($oldName, $newName);
+        $mainPath = getcwd() . '/modules/uploads' . "/";
     }
 };

@@ -6,7 +6,7 @@ function showFoldersFile($path = '/')
     $server_root = getcwd() . '/modules/uploads' . $path;
 
     $tree = scandir($server_root);
-
+    // var_dump($tree);
     for ($i = 2; $i < count($tree); $i++) {
         $infoFile = pathinfo($tree[$i]);
         $cretionDate = date("d/m/Y", filectime($server_root . $tree[$i]));
@@ -27,16 +27,15 @@ function showFoldersFile($path = '/')
 
 function printFolders($tree)
 {
-    /* echo "<pre>";
-    echo print_r($tree); */
+    // echo "<pre>";
+    // echo print_r($tree);
 
     $html = '';
     for ($i = 0; $i < count($tree); $i++) {
         $html = $html . '<tr>';
-
         $file = json_decode($tree[$i]);
         foreach ($file as $key => $value) {
-            $url = '';
+            //$url = '';
             if ($key === 'url') {
                 //echo  $value."<br>";
                 $url = $value;
@@ -47,8 +46,10 @@ function printFolders($tree)
             } else {
                 if ($key !== 'url') {
                     if ($key === 'name') {
-                        //echo  $value."<br>";
+                        //$value . "<br>";
+                        // $explodeUrl=explode($url);
                         $html = $html . "<td><a href='$url'>$value</a></td>";
+                        $oldName = $value;
                     } else {
                         $html = $html . "<td>$value</td>";
                     }
@@ -56,8 +57,8 @@ function printFolders($tree)
             }
         }
         $html = $html . "<td>
-           <span data-bs-toggle='modal' data-bs-target='#renameModal'><img class='actions-button' src='./assets/img/icons/edit.svg'/></span>
-           <span><img class='actions-button' src='./assets/img/icons/delete.svg'/></span>
+           <span data-file='{$url}' data-bs-toggle='modal' data-bs-target='#renameModal' data-oldname='{$oldName}'><img data-file='{$url}' class='actions-button editFile' src='./assets/img/icons/edit.svg'/></span>
+           <span data-file='{$url}'><img class='actions-button deleteFile' data-file='{$url}' src='./assets/img/icons/delete.svg'/></span>
          </td></tr>";
     }
 

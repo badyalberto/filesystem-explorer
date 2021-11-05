@@ -16,6 +16,9 @@ $tree = showFoldersFile();
   <script src="./node_modules/jstree/dist/jstree.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous" defer></script>
+  <script src="./assets/js/functions.js" defer></script>
+  <script src="./assets/js/deleteFile.js" defer></script>
+  <script src="./assets/js/editFile.js" defer></script>
 </head>
 
 <body>
@@ -151,12 +154,29 @@ $tree = showFoldersFile();
       </div>
       <form method="post" action="modules/editFile.php">
         <div class="modal-body">
-          <input name="newName" placeholder="input your desired name here"></input>
+          <input id="oldNameInput" name="oldNameInput"></input>
+          <input id="newName" name="newName" placeholder="input your desired name here"></input>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button id="save-btn" type="submit" class="btn btn-primary">Save changes</button>
       </form>
     </div>
   </div>
 </div>
 </div>
+<script>
+  // 3:30
+  // https://www.youtube.com/watch?v=WscLGtEXW6M
+  // $(document).ready(function() {
+  //   $('#renameModal').on('show.bs.modal', function(e) {
+  //     var fileName = $(e.relatedTarget).data('file-name');
+  //     var path = $(e.relatedTarget).data('path');
+  //     $(e.currentTarget).find('input[name="newName"]').val(fileName);
+  //   });
+  //   if (confirm("Are you sure you want to delete this?")) {
+
+  //   } else {
+
+  //   }
+  // });
+</script>
