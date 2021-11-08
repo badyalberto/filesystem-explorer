@@ -32,7 +32,6 @@ function search($path='/',$search= '')
      if(isset($_REQUEST['search'])){
         $search = $_REQUEST['search'];
     }
-    if()
     
     //using the opendir function
     $dir_handle = opendir($path) or die("Unable to open $path");
