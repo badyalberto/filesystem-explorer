@@ -31,7 +31,7 @@ function ListFolder($path)
                 $ext = substr($path . $file, -3, 3);
                 $icon = "./assets/img/icons/" . $ext . ".svg";
                 //Display a list of files.
-                echo "<li data-jstree='{\"icon\":\"$icon\"}'>" . $file . "</li>";
+                echo "<li class='tree-max' data-jstree='{\"icon\":\"$icon\"}'>" . $file . "</li>";
             }
         }
     }
