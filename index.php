@@ -1,15 +1,21 @@
 <?php
 require_once './modules/Utils.php';
 require_once './modules/showFoldersFile.php';
-require_once './modules/printFoldersFile.php';
-$tree = showFoldersFile();
+require_once './modules/breadcrumbs.php';
+
+if (!isset($_GET['folder'])) {
+    $tree = showFoldersFile();
+} else {
+    $tree = showFoldersFile($_GET['folder']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>File System PHP</title>
   <link rel="stylesheet" href="./assets/css/style.css" />
   <link rel="stylesheet" href="./node_modules/jstree/dist/themes/default/style.min.css" />
   <script src="./node_modules/jquery/dist/jquery.min.js"></script>
@@ -30,10 +36,12 @@ $tree = showFoldersFile();
       <img src="./assets/img/icons/logo.svg" alt="" class="w-25"> <span class="text-logo">File System</span>
     </div>
     <div>
-      <form>
-        <label>Search</label>
-        <input type="text" />
-      </form>
+      <form method="GET" action="./modules/search.php">
+      <label>Search</label>
+          <input type="text" name="search"/>
+          <input type="submit" value="Search">
+        </form>
+
     </div>
   </header>
     <main class="d-flex">
@@ -43,15 +51,12 @@ $tree = showFoldersFile();
       <article class="w-75">
         <div class="d-flex justify-content-between">
           <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">Library</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Data</li>
-            </ol>
+            <?php breadcrumbs();?>
           </nav>
           <div class="me-3 d-flex justify-content-around general-button-container">
             <button class="general-button" data-bs-toggle="modal" data-bs-target="#myModal" ><img class="general-button-img" src="./assets/img/icons/create.svg" alt="" srcset="" /></button>
-            <!-- <button class="general-button" ><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></button> --><form method="post" action="modules/uploadFile.php" enctype="multipart/form-data">
+            <!-- <button class="general-button" ><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></button> -->
+            <form method="post" action="modules/uploadFile.php?folder=<?=isset($_GET['folder']) ? $_GET['folder'] : ""?>" enctype="multipart/form-data">
             <input type ="file" name="file" class="general-button" onchange="form.submit()"><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></input>
             <input type ="submit" value="Upload" class="d-none"></input>
             </form>
@@ -60,11 +65,11 @@ $tree = showFoldersFile();
         <table class="w-100 text-center" id="table">
           <thead>
             <tr>
-              <th>File img</th>
               <th>File name</th>
               <th>Creation</th>
               <th>Last modification</th>
               <th>Extension</th>
+              <th>Size</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -86,7 +91,7 @@ $tree = showFoldersFile();
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="post">
+        <form method="post" action="modules/createFolder.php?<?=isset($_GET['folder']) ? 'folder=' . $_GET['folder'] : ""?>">
           <div class="mb-3">
             <label for="folder-name" class="col-form-label">Name for your new folder:</label>
             <input type="text" class="form-control" name="folder-name" id="folder-name">
@@ -96,11 +101,11 @@ $tree = showFoldersFile();
         </form>
       </div>
       <?php
-if (isset($_POST["create-folder-btn"])) {
-    $path = getcwd();
-    $folderName = $_POST["folder-name"];
-    mkdir("$path/modules/uploads/$folderName", 0777);
-}
+/* if (isset($_POST["create-folder-btn"])) {
+$path = getcwd();
+$folderName = $_POST["folder-name"];
+mkdir("$path/modules/uploads/$folderName", 0777);
+} */
 ;
 ?>
     </div>

@@ -7,9 +7,3 @@
 //         document.getElementById('oldNameInput').setAttribute('value', oldName);
 //     })
 // })
-
-
-
-
-
-
