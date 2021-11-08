@@ -31,7 +31,7 @@ function ListFolder($path)
                 $ext = substr($path . $file, -3, 3);
                 $icon = "./assets/img/icons/" . $ext . ".svg";
                 //Display a list of files.
-                echo "<li data-jstree='{\"icon\":\"$icon\"}'>" . $file . "</li>";
+                echo "<li class='tree-max' data-jstree='{\"icon\":\"$icon\"}'>" . $file . "</li>";
             }
         }
     }
@@ -57,11 +57,18 @@ function uploadFile()
 
         if (!in_array($extension, $acceptedExtensions)) echo "wrong type, the accepted extensions are the following: " . print_r($acceptedExtensions);
         else {
-            $location = getcwd() . '/uploads/' . $fileName;
+            $date = new DateTime();
+            $timestamp = $date->getTimestamp();
+            $currentFolder = '';
+            if(isset($_GET['folder'])){
+                $currentFolder = $_GET['folder'];
+            }
+            $location = getcwd() . '/uploads/'.$currentFolder."/".$test[0]."-".$timestamp.".".$extension;
             //echo $location;
             move_uploaded_file($_FILES['file']['tmp_name'], $location);
+            $redirect = '../index.php?folder='.$currentFolder;
             //Location to be discussed
-            header("Location: ../");
+            header("Location: $redirect");
         };
     }
 };

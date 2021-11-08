@@ -1,8 +1,14 @@
 <?php
 require_once './modules/Utils.php';
 require_once './modules/showFoldersFile.php';
-require_once './modules/printFoldersFile.php';
-$tree = showFoldersFile();
+require_once './modules/breadcrumbs.php';
+
+if (!isset($_GET['folder'])) {
+  $tree = showFoldersFile();
+} else {
+  $tree = showFoldersFile($_GET['folder']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +16,7 @@ $tree = showFoldersFile();
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>File System PHP</title>
   <link rel="stylesheet" href="./assets/css/style.css" />
   <link rel="stylesheet" href="./node_modules/jstree/dist/themes/default/style.min.css" />
   <script src="./node_modules/jquery/dist/jquery.min.js"></script>
@@ -32,10 +38,12 @@ $tree = showFoldersFile();
       <img src="./assets/img/icons/logo.svg" alt="" class="w-25"> <span class="text-logo">File System</span>
     </div>
     <div>
-      <form>
+      <form method="GET" action="./modules/search.php">
         <label>Search</label>
-        <input type="text" />
+        <input type="text" name="search" />
+        <input type="submit" value="Search">
       </form>
+
     </div>
   </header>
   <main class="d-flex">
@@ -45,34 +53,28 @@ $tree = showFoldersFile();
     <article class="w-75">
       <div class="d-flex justify-content-between">
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Library</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Data</li>
-          </ol>
+          <?php breadcrumbs(); ?>
         </nav>
         <div class="me-3 d-flex justify-content-around general-button-container">
           <button class="general-button" data-bs-toggle="modal" data-bs-target="#myModal"><img class="general-button-img" src="https://img.icons8.com/color/48/000000/add-folder.png" alt="" srcset="" /></button>
-          <!-- <button class="general-button" ><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></button> -->
-          <form method="post" action="modules/uploadFile.php" enctype="multipart/form-data">
+          <form method="post" action="modules/uploadFile.php?folder=<?= isset($_GET['folder']) ? $_GET['folder'] : "" ?>" enctype="multipart/form-data">
             <label for="fileUpload">
               <img class="general-button-img" src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/50/000000/external-upload-interface-kiranshastry-lineal-kiranshastry.png" />
             </label>
             <input id="fileUpload" type="file" name="file" class="d-none" onchange="form.submit()"></input>
             <input type="submit" value="Upload" class="d-none"></input>
           </form>
-          <button class="general-button" data-bs-toggle="modal" data-bs-target="#trashModal"><img class="general-button-img" src="./assets/img/icons/globalTrash.svg" alt="" srcset="" /></button>
-
+          <button class="general-button" data-bs-toggle="modal" data-bs-target="#trashModal"><a href="index.php?folder=/trash"></a><img class="general-button-img" src="./assets/img/icons/globalTrash.svg" alt="" srcset="" /></button>
         </div>
       </div>
       <table class="w-100 text-center" id="table">
         <thead>
           <tr>
-            <th>File img</th>
-            <th>File name</th>
+            <th class="th-width">File name</th>
             <th>Creation</th>
             <th>Last modification</th>
             <th>Extension</th>
+            <th>Size</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -95,7 +97,7 @@ $tree = showFoldersFile();
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="post">
+        <form method="post" action="modules/createFolder.php?<?= isset($_GET['folder']) ? 'folder=' . $_GET['folder'] : "" ?>">
           <div class="mb-3">
             <label for="folder-name" class="col-form-label">Name for your new folder:</label>
             <input type="text" class="form-control" name="folder-name" id="folder-name">
@@ -104,13 +106,6 @@ $tree = showFoldersFile();
           <input type="submit" value="Create folder" name="create-folder-btn" class="btn btn-primary">
         </form>
       </div>
-      <?php
-      if (isset($_POST["create-folder-btn"])) {
-        $path = getcwd();
-        $folderName = $_POST["folder-name"];
-        mkdir("$path/modules/uploads/$folderName", 0777);
-      };
-      ?>
     </div>
   </div>
 </div>
@@ -159,3 +154,25 @@ $tree = showFoldersFile();
 </div>
 </div>
 <!-- FIN DELETE FOLDER OR FILE -->
+
+<!-- FULLY DELETE FILE IN TRASH-->
+<div class="modal" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete File/Folder?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" action="modules/moveToTrash.php">
+        <div class="modal-body">
+          <input id="currentNameInput" name="currentNameInput" placeholder="Input your desired name here" disabled></input>
+          <input id="filePath" name="filePath" placeholder="input your desired name here" hidden></input>
+        </div>
+        <div class="modal-footer">
+          <button id="save-btn" type="submit" class="btn btn-primary">Confirm</button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<!-- FIN FULLY DELETE FILE IN TRASH -->
