@@ -2,17 +2,18 @@
 
 function deleteFile()
 {
-    if (isset($_POST['filePath'])) {
-
-        if (!is_dir($_POST["filePath"])) {
-            unlink($_POST["filePath"]);
+    if (isset($_POST['currentNameInput'])) {
+        $deletePath = $_POST['deletePath'];
+        echo $deletePath;
+        if (!is_dir($deletePath)) {
+            unlink($deletePath);
         } else {
-            rmdir($_POST["filePath"]);
+            rmdir($deletePath);
         }
-        // echo $_POST["filePath"];
-        // header("Location: ../index.php");
+        // echo $_POST["currentNameInput"];
+        header("Location: ../index.php");
         $person = array(
-            "url" => $_POST["filePath"],
+            "url" => $deletePath,
             "name" => "hello"
         );
         $json = json_encode($person);

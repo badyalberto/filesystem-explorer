@@ -6,6 +6,7 @@ $tree = showFoldersFile();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,7 +20,8 @@ $tree = showFoldersFile();
   <script src="./assets/js/functions.js" defer></script>
   <script src="./assets/js/deleteFile.js" defer></script>
   <script src="./assets/js/editFile.js" defer></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/rr-1.2.8/datatables.min.css"/>
+  <script src="./assets/js/moveFile.js" defer></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/rr-1.2.8/datatables.min.css" />
   <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/rr-1.2.8/datatables.min.js"></script>
   <script src="./assets/js/datatable.js" defer></script>
 </head>
@@ -36,45 +38,49 @@ $tree = showFoldersFile();
       </form>
     </div>
   </header>
-    <main class="d-flex">
-      <aside class="w-25" id="tree">
-        <?php ListFolder(getcwd() . "/modules/uploads/");?>
-      </aside>
-      <article class="w-75">
-        <div class="d-flex justify-content-between">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">Library</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Data</li>
-            </ol>
-          </nav>
-          <div class="me-3 d-flex justify-content-around general-button-container">
-            <button class="general-button" data-bs-toggle="modal" data-bs-target="#myModal" ><img class="general-button-img" src="./assets/img/icons/create.svg" alt="" srcset="" /></button>
-            <!-- <button class="general-button" ><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></button> --><form method="post" action="modules/uploadFile.php" enctype="multipart/form-data">
-            <input type ="file" name="file" class="general-button" onchange="form.submit()"><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></input>
-            <input type ="submit" value="Upload" class="d-none"></input>
-            </form>
-          </div>
+  <main class="d-flex">
+    <aside class="w-25" id="tree">
+      <?php ListFolder(getcwd() . "/modules/uploads/"); ?>
+    </aside>
+    <article class="w-75">
+      <div class="d-flex justify-content-between">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Library</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Data</li>
+          </ol>
+        </nav>
+        <div class="me-3 d-flex justify-content-around general-button-container">
+          <button class="general-button" data-bs-toggle="modal" data-bs-target="#myModal"><img class="general-button-img" src="./assets/img/icons/create.svg" alt="" srcset="" /></button>
+          <!-- <button class="general-button" ><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></button> -->
+          <form method="post" action="modules/uploadFile.php" enctype="multipart/form-data">
+            <input type="file" name="file" class="general-button" onchange="form.submit()"><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></input>
+            <input type="submit" value="Upload" class="d-none"></input>
+          </form>
+          <button class="general-button" data-bs-toggle="modal" data-bs-target="#trashModal"><img class="general-button-img" src="./assets/img/icons/globalTrash.svg" alt="" srcset="" /></button>
+
         </div>
-        <table class="w-100 text-center" id="table">
-          <thead>
-            <tr>
-              <th>File img</th>
-              <th>File name</th>
-              <th>Creation</th>
-              <th>Last modification</th>
-              <th>Extension</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php echo printFolders($tree) ?>
-          </tbody>
-        </table>
-      </article>
-    </main>
-  </body>
+      </div>
+      <table class="w-100 text-center" id="table">
+        <thead>
+          <tr>
+            <th>File img</th>
+            <th>File name</th>
+            <th>Creation</th>
+            <th>Last modification</th>
+            <th>Extension</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php echo printFolders($tree) ?>
+        </tbody>
+      </table>
+    </article>
+  </main>
+</body>
+
 </html>
 
 <!-- CREATE NEW FOLDER -->
@@ -96,13 +102,12 @@ $tree = showFoldersFile();
         </form>
       </div>
       <?php
-if (isset($_POST["create-folder-btn"])) {
-    $path = getcwd();
-    $folderName = $_POST["folder-name"];
-    mkdir("$path/modules/uploads/$folderName", 0777);
-}
-;
-?>
+      if (isset($_POST["create-folder-btn"])) {
+        $path = getcwd();
+        $folderName = $_POST["folder-name"];
+        mkdir("$path/modules/uploads/$folderName", 0777);
+      };
+      ?>
     </div>
   </div>
 </div>
@@ -129,3 +134,47 @@ if (isset($_POST["create-folder-btn"])) {
 </div>
 </div>
 <!-- FIN RENAME FOLDER OR FILE -->
+
+<!-- MOVE FOLDER OR FILE TO TRASH -->
+<div class="modal" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete File/Folder?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" action="modules/moveToTrash.php">
+        <div class="modal-body">
+          <input id="currentNameInput" name="currentNameInput" placeholder="Input your desired name here"></input>
+          <input id="filePath" name="filePath" placeholder="input your desired name here" hidden></input>
+        </div>
+        <div class="modal-footer">
+          <button id="save-btn" type="submit" class="btn btn-primary">Confirm</button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<!-- FIN DELETE FOLDER OR FILE -->
+
+<!-- FULLY DELETE FILE IN TRASH-->
+<div class="modal" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete File/Folder?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" action="modules/moveToTrash.php">
+        <div class="modal-body">
+          <input id="currentNameInput" name="currentNameInput" placeholder="Input your desired name here"></input>
+          <input id="filePath" name="filePath" placeholder="input your desired name here" hidden></input>
+        </div>
+        <div class="modal-footer">
+          <button id="save-btn" type="submit" class="btn btn-primary">Confirm</button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<!-- FIN FULLY DELETE FILE IN TRASH -->
