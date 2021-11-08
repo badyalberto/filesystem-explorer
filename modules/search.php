@@ -28,11 +28,11 @@
 
 function search($path='/',$search= '')
 {
-    echo "hola";
-    die();
-   /*  if(isset($_REQUEST['search'])){
+
+     if(isset($_REQUEST['search'])){
         $search = $_REQUEST['search'];
     }
+    if()
     
     //using the opendir function
     $dir_handle = opendir($path) or die("Unable to open $path");
@@ -55,7 +55,7 @@ function search($path='/',$search= '')
     }
 
     //closing the directory
-    closedir($dir_handle); */
+    closedir($dir_handle); 
 }
 
 search();

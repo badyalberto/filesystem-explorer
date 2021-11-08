@@ -65,7 +65,7 @@ if (!isset($_GET['folder'])) {
         <table class="w-100 text-center" id="table">
           <thead>
             <tr>
-              <th>File name</th>
+              <th class="th-width">File name</th>
               <th>Creation</th>
               <th>Last modification</th>
               <th>Extension</th>

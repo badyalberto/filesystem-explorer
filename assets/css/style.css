@@ -37,3 +37,12 @@ body {
 .type-icon {
   width: 30px;
 }
+.th-width {
+  max-width: 200px;
+}
+
+.tree-max {
+  max-width: 300px;
+  overflow: hidden;
+  
+}
