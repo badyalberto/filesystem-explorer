@@ -1,6 +1,6 @@
 <?php
 
-function moveToTrash()
+/* function moveToTrash()
 {
     if (isset($_GET['trash'])) {
         $arrayTree = [];
@@ -28,6 +28,25 @@ function moveToTrash()
     }
 
 
+}; */
+
+function moveToTrash()
+{
+    
+    if (isset($_POST['currentNameInput'])) {
+        $filePath = $_POST['filePath']; //uploads
+        echo $_POST['currentNameInput'];
+        $trashPath = getcwd() . "/trash<br>";
+        $string = substr($filePath,0,-7);
+        echo $string;
+        //echo $trashPath."<br>";
+        //echo substr($trashPath,0,-5).'<br>';
+        //echo  $trashPath . "/modules/trash/" . $_POST['currentNameInput'];
+        die();
+        rename($filePath, $trashPath . "/modules/" . $_POST['currentNameInput']);
+        header("Location: ../index.php");
+    }
 };
 
 moveToTrash();
+

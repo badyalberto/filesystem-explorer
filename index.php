@@ -10,9 +10,9 @@ if (!isset($_GET['folder'])) {
     $tree = showFoldersFile($_GET['folder']);
 }
 
-if (isset($_GET['trash'])) {
+/* if (isset($_GET['trash'])) {
     $tree = moveToTrash();
-}
+} */
 ?>
 <!DOCTYPE html>
 <html lang="en">
