@@ -58,10 +58,14 @@ if (!isset($_GET['folder'])) {
           <div class="me-3 d-flex justify-content-around general-button-container">
             <button class="general-button" data-bs-toggle="modal" data-bs-target="#myModal" ><img class="general-button-img" src="./assets/img/icons/create.svg" alt="" srcset="" /></button>
             <form method="post" action="modules/uploadFile.php?folder=<?=isset($_GET['folder']) ? $_GET['folder'] : ""?>" enctype="multipart/form-data">
-            <input type ="file" name="file" class="general-button" onchange="form.submit()"><img class="general-button-img" src="./assets/img/icons/upload.svg" alt="" srcset="" /></input>
-            <input type ="submit" value="Upload" class="d-none"></input>
+            <label for="fileUpload">
+              <img class="general-button-img" src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/50/000000/external-upload-interface-kiranshastry-lineal-kiranshastry.png" />
+            </label>
+            <input id="fileUpload" type="file" name="file" class="d-none" onchange="form.submit()"></input>
+
+<input type="submit" value="Upload" class="d-none"></input>
             </form>
-            <button class="general-button" data-bs-toggle="modal" data-bs-target="#trashModal"><img class="general-button-img" src="./assets/img/icons/globalTrash.svg" alt="" srcset="" /></button>
+            <button class="general-button" data-bs-toggle="modal" data-bs-target="#trashModal"><a href="index.php?folder=/trash"></a><img class="general-button-img" src="./assets/img/icons/globalTrash.svg" alt="" srcset="" /></button>
           </div>
         </div>
         <table class="w-100 text-center" id="table">
@@ -161,7 +165,7 @@ if (!isset($_GET['folder'])) {
       </div>
       <form method="post" action="modules/moveToTrash.php">
         <div class="modal-body">
-          <input id="currentNameInput" name="currentNameInput" placeholder="Input your desired name here"></input>
+          <input id="currentNameInput" name="currentNameInput" placeholder="Input your desired name here" disabled></input>
           <input id="filePath" name="filePath" placeholder="input your desired name here" hidden></input>
         </div>
         <div class="modal-footer">

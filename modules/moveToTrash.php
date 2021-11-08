@@ -2,6 +2,7 @@
 
 function moveToTrash()
 {
+    
     if (isset($_POST['currentNameInput'])) {
         $filePath = $_POST['filePath'];
         $trashPath = getcwd() . "/trash";
