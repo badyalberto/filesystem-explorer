@@ -1,5 +1,31 @@
 <?php
 
+// function showTrashFolder()
+// {
+//     $trashPath = getcwd() . "/trash";
+//     $trashContent = scandir($trashPath);
+//     for ($i = 2; $i < count($trashContent); $i++) {
+//         $infoFile = pathinfo($trashContent[$i]);
+//         $creationDate = date("d/m/Y", filectime($trashPath . "/" . $trashContent[$i]));
+//         $editDate = date("d/m/Y", filemtime($trashPath . "/" . $trashContent[$i]));
+//         $name = $infoFile['basename'];
+//         $type = 'folder';
+//         $sizebytes = filesize($trashPath . "/" . $trashContent[$i]);
+//         $size = formatBytes($sizebytes, 2);
+//     }
+
+//     if (count($infoFile) === 4) {
+//         $type = $infoFile['extension'];
+//     }
+
+//     $json = json_encode(array('url' => $server_root . $name, 'name' => $name, 'creationDate' => $cretionDate, 'editDate' => $editDate, 'icon' => "./assets/img/icons/" . $type . ".svg", 'size' => $size));
+//     array_push($arrayTree, $json);
+// }
+
+// return $arrayTree;
+
+// }
+
 function showFoldersFile($path = '/')
 {
     $arrayTree = [];
@@ -64,7 +90,7 @@ function printFolders($tree)
                 }
             }
         }
-        
+
         $html = $html . "<td>
            <span data-file='{$url}' data-bs-toggle='modal' data-bs-target='#renameModal' data-oldname='{$oldName}'><img data-file='{$url}' class='actions-button editFile' src='./assets/img/icons/edit.svg'/></span>
            <span data-file='{$url}' data-bs-toggle='modal' data-bs-target='#deleteModal' data-oldname='{$oldName}'><img class='actions-button deleteFile' data-file='{$url}' src='./assets/img/icons/delete.svg'/></span>
@@ -85,5 +111,4 @@ function formatBytes($size, $precision = 2)
     } else {
         return "";
     }
-
 }

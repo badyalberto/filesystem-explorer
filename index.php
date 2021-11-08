@@ -64,7 +64,7 @@ if (!isset($_GET['folder'])) {
             <input id="fileUpload" type="file" name="file" class="d-none" onchange="form.submit()"></input>
             <input type="submit" value="Upload" class="d-none"></input>
           </form>
-          <button class="general-button" data-bs-toggle="modal" data-bs-target="#trashModal"><a href="index.php?folder=/trash"></a><img class="general-button-img" src="./assets/img/icons/globalTrash.svg" alt="" srcset="" /></button>
+          <button class="general-button"><a href="index.php?trash"></a><img class="general-button-img" src="./assets/img/icons/globalTrash.svg" alt="" srcset="" /></button>
         </div>
       </div>
       <table class="w-100 text-center" id="table">
