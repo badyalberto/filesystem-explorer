@@ -6,6 +6,13 @@ body {
   left: 25px;
 }
 
+.text-logo {
+  color: #ffa000;
+  font-family: fantasy;
+  font-size: 2rem;
+  vertical-align: middle;
+}
+
 .general-button-container {
   width: 10%;
 }
@@ -27,6 +34,6 @@ body {
   width: 20px;
 }
 
-.type-icon{
+.type-icon {
   width: 30px;
 }

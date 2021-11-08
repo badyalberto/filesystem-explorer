@@ -1,11 +1,9 @@
 <?php
 
 require_once './modules/showFoldersFile.php';
-
+/* 
 function printFolders($tree)
 {
-    /* echo "<pre>";
-    echo print_r($tree); */
 
     $html = '';
     for ($i = 0; $i < count($tree); $i++) {
@@ -40,3 +38,4 @@ function printFolders($tree)
 
     return $html;
 }
+ */
