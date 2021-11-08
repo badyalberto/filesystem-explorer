@@ -2,7 +2,7 @@
 
 function getIcon($type)
 {
-    
+
     switch ($type) {
         case 'doc':
             return "./assets/img/icons/doc.svg";
@@ -38,37 +38,65 @@ function getIcon($type)
     }
 }
 
-function showFiles($path){
-    $dir = opendir($path);
-    $files = array();
-    $html = '<ul>';
+/**
+ * List rescursive folders
+ *
+ * @param string $path
+ * @return void
+ */
+function ListFolder($path)
+{
+    //using the opendir function
+    $dir_handle = opendir($path) or die("Unable to open $path");
 
-    while ($current = readdir($dir)){
-        if( $current != "." && $current != "..") {
-            echo $current;
-            if(is_dir($path.$current)) {
-                $cont = strlen(getcwd()."/modules/uploads/");
-                $rest = substr($path.$current, $cont);
-                $html = $html."<li>$rest</li>";
-                showFiles($path.$current.'/',$html);
-            }
-            else {
-                $cont = strlen(getcwd()."/modules/uploads/");
-                $rest = substr($path.$current, $cont);
-                $ext = substr($path.$current, -3,3);
-                echo "./assets/img/icons/".$ext.".svg";
-                $var = "./assets/img/icons/".$ext.".svg";
-                //echo $rest;
-                $html = $html."<li data-jstree='{\"icon\":\"$var\"}'>".$rest."</li>";
-                $files[] = $current;
+    //Leave only the lastest folder name
+    $array = explode("/", $path);
+
+    $dirname = end($array);
+
+    //display the target folder.
+    if ($dirname) {
+        echo "<li>$dirname\n";
+    }
+
+    echo "<ul>\n";
+
+    while (false !== ($file = readdir($dir_handle))) {
+        if ($file != "." && $file != "..") {
+            if (is_dir($path . "/" . $file)) {
+                //Display a list of sub folders.
+                ListFolder($path . "/" . $file);
+            } else {
+                $ext = substr($path . $file, -3, 3);
+                $icon = "./assets/img/icons/" . $ext . ".svg";
+                //Display a list of files.
+                echo "<li data-jstree='{\"icon\":\"$icon\"}'>" . $file . "</li>";
             }
         }
     }
-    /* echo '<h6>'.$path.'</h6>';
-    echo '<ul>';
-    for($i=0; $i<count( $files ); $i++){
-        echo '<li>'.$files[$i]."</li>";
-    } */
-    $html = $html.'</ul>';
-    echo $html;
+    echo "</ul>\n";
+    echo "</li>\n";
+
+    //closing the directory
+    closedir($dir_handle);
 }
+
+function uploadFile()
+{
+    if ($_FILES['file']['name'] !== '') {
+        $fileName = $_FILES['file']['name'];
+        $test = explode(".", $_FILES['file']['name']);
+        $extension = end($test);
+        $acceptedExtensions = ['doc', 'csv', 'jpg', 'png', 'txt', 'ppt', 'odt', 'pdf', 'zip', 'rar', 'exe', 'svg', 'mp3', 'mp4'];
+
+        if (!in_array($extension, $acceptedExtensions)) {
+            echo "wrong type, the accepted extensions are the following: " . print_r($acceptedExtensions);
+        } else {
+            $location = getcwd() . "/" . $fileName;
+            echo $location;
+            move_uploaded_file($_FILES['file']['tmp_name'], $location);
+            //Location to be discussed
+            header("Location: ../");
+        }
+        ;
+    }};

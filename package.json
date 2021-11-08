@@ -23,6 +23,7 @@
     "bootstrap": "^5.0.1",
     "datatables.net-dt": "^1.11.3",
     "jquery": "^3.6.0",
-    "jstree": "^3.3.12"
+    "jstree": "^3.3.12",
+    "npm": "^8.1.2"
   }
 }
