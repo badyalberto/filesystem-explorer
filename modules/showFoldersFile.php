@@ -66,8 +66,8 @@ function printFolders($tree)
         }
         
         $html = $html . "<td>
-           <span data-file='{$url}' data-bs-toggle='modal' data-bs-target='#renameModal' data-oldname='{$oldName}'><img data-file='{$url}' class='actions-button editFile' src='./assets/img/icons/edit.svg'/></span>
-           <span data-file='{$url}' data-bs-toggle='modal' data-bs-target='#deleteModal' data-oldname='{$oldName}'><img class='actions-button deleteFile' data-file='{$url}' src='./assets/img/icons/delete.svg'/></span>
+           <span data-file='$url' data-bs-toggle='modal' data-bs-target='#renameModal' data-oldname='{$oldName}'><img data-file='{$url}' class='actions-button editFile' src='./assets/img/icons/edit.svg'/></span>
+           <span data-file='$url' data-bs-toggle='modal' data-bs-target='#deleteModal' data-oldname='{$oldName}'><img class='actions-button deleteFile' data-file='{$url}' src='./assets/img/icons/delete.svg'/></span>
          </td></tr>";
     }
 
