@@ -6,6 +6,15 @@ body {
   font-family: Roboto !important;
 }
 
+a{
+  color: black !important;
+  text-decoration: none !important;
+  font-weight: 400 !important;
+}
+a:hover{
+  font-weight: 600 !important;
+}
+
 header {
   background: #4285f4;
   margin-bottom: 20px;
@@ -91,14 +100,25 @@ header {
   padding: 0.3rem 0.6rem;
 }
 
-.height-40 {
+.button-options {
   height: 45px;
+  margin: 0px 2px;
 }
 
-.margin-20{
-  margin-right: 20px;
+.margin-35 {
+  margin-right: 35px;
 }
 
+.button-trash {
+  border-radius: 15px 15px 15px 15px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.button-trash__message{
+  vertical-align: middle;
+  margin-left: 5px;
+}
 footer {
   height: 100px;
   background-color: #4285f4;
@@ -107,6 +127,9 @@ footer {
   justify-content: center;
   line-height: 100px;
   margin-top: 20px;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }
 
 /* BREADCRUMBS */

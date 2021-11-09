@@ -35,9 +35,6 @@ function moveToTrash()
     if (isset($_POST['currentNameInput'])) {
         $filePath = $_POST['filePath']; //uploads
         $trashPath = getcwd() . "/trash/".$_POST['currentNameInput'];
-        //echo $filePath."<br>";
-        //echo $trashPath;
-        //echo $trashPath."<br>";
         rename($filePath, $trashPath);
         header("Location: ../index.php");
     }
