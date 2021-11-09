@@ -1,10 +1,10 @@
 <?php
 
-/* function moveToTrash()
+function filesTrash()
 {
     if (isset($_GET['trash'])) {
         $arrayTree = [];
-        $server_root = getcwd() . '/modules/trash';
+        $server_root = getcwd() . '/modules/trash/';
 
         $tree = scandir($server_root);
         for ($i = 2; $i < count($tree); $i++) {
@@ -23,27 +23,22 @@
             $json = json_encode(array('url' => $server_root . $name, 'name' => $name, 'creationDate' => $cretionDate, 'editDate' => $editDate, 'icon' => "./assets/img/icons/" . $type . ".svg", 'size' => $size));
             array_push($arrayTree, $json);
         }
-
         return $arrayTree;
     }
 
 
-}; */
+}; 
 
 function moveToTrash()
 {
     
     if (isset($_POST['currentNameInput'])) {
         $filePath = $_POST['filePath']; //uploads
-        echo $_POST['currentNameInput'];
-        $trashPath = getcwd() . "/trash<br>";
-        $string = substr($filePath,0,-7);
-        echo $string;
+        $trashPath = getcwd() . "/trash/".$_POST['currentNameInput'];
+        //echo $filePath."<br>";
+        //echo $trashPath;
         //echo $trashPath."<br>";
-        //echo substr($trashPath,0,-5).'<br>';
-        //echo  $trashPath . "/modules/trash/" . $_POST['currentNameInput'];
-        die();
-        rename($filePath, $trashPath . "/modules/" . $_POST['currentNameInput']);
+        rename($filePath, $trashPath);
         header("Location: ../index.php");
     }
 };
