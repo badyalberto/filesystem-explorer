@@ -5,13 +5,17 @@ session_start();
 require_once './modules/Utils.php';
 require_once './modules/showFoldersFile.php';
 require_once './modules/breadcrumbs.php';
+require_once './modules/moveToTrash.php';
 
 if (!isset($_GET['folder'])) {
-  $tree = showFoldersFile();
+    $tree = showFoldersFile();
 } else {
-  $tree = showFoldersFile($_GET['folder']);
+    $tree = showFoldersFile($_GET['folder']);
 }
 
+if (isset($_GET['trash'])) {
+    $tree = filesTrash();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,35 +51,39 @@ if (!isset($_GET['folder'])) {
         <input type="hidden" value="<?=getcwd()?>" name="folder-path" /> <!-- TODO: REVIEW ABSOLUTE PATH PENDING -->
         <input type="submit" value="search">
       </form>
-
+      <a href='./index.php?trash' class='d-block margin-35'><button class='btn btn-danger button-trash'><img src='./assets/img/icons/trash.svg' /><span class="button-trash__message">Trash</span></button></a>
     </div>
   </header>
   <main class="d-flex">
     <aside class="w-25" id="tree">
-      <?php ListFolder(getcwd() . "/modules/uploads/"); ?>
+
+      <?php ListFolder(getcwd() . "/modules/uploads/");?>
     </aside>
     <article class="w-75">
-      <div class="d-flex justify-content-between">
-        <nav aria-label="breadcrumb">
-          <?php breadcrumbs(); ?>
-        </nav>
+      <div class="d-flex justify-content-between align-items-center">
+      <div class="verticals ten offset-by-one">
+
+          <?php breadcrumbs();?>
+      </div>
         <div class="me-3 d-flex justify-content-around general-button-container">
-          <button class="general-button" data-bs-toggle="modal" data-bs-target="#myModal"><img class="general-button-img" src="https://img.icons8.com/color/48/000000/add-folder.png" alt="" srcset="" /></button>
-          <form method="post" action="modules/uploadFile.php?folder=<?= isset($_GET['folder']) ? $_GET['folder'] : "" ?>" enctype="multipart/form-data">
+          <button class="d-block btn btn-primary button-options" data-bs-toggle="modal" data-bs-target="#myModal"><img src="./assets/img/icons/folder-alert.svg" alt="" srcset="" /></button>
+          <button class="d-block btn btn-primary button-options">
+            <form method="post" action="modules/uploadFile.php?folder=<?=isset($_GET['folder']) ? $_GET['folder'] : ""?>" enctype="multipart/form-data">
             <label for="fileUpload">
-              <img class="general-button-img" src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/50/000000/external-upload-interface-kiranshastry-lineal-kiranshastry.png" />
+              <img class="general-button-img" src="./assets/img/icons/upload-white.svg" />
             </label>
             <input id="fileUpload" type="file" name="file" class="d-none" onchange="form.submit()"></input>
             <input type="submit" value="Upload" class="d-none"></input>
           </form>
-          <button class="general-button" data-bs-toggle="modal" data-bs-target="#trashModal"><a href="index.php?folder=/trash"></a><img class="general-button-img" src="./assets/img/icons/globalTrash.svg" alt="" srcset="" /></button>
+        </button>
+
         </div>
       </div>
-      <table class="w-100 text-center" id="table">
+      <table class="w-100 text-center stripe hover row-border" id="table">
         <thead>
           <tr>
             <th class="th-width">File name</th>
-            <th>Creation</th>
+            <th>Creation Date</th>
             <th>Last modification</th>
             <th>Extension</th>
             <th>Size</th>
@@ -103,26 +111,31 @@ if (!isset($_GET['folder'])) {
       ?>
     </article>
   </main>
+  <footer>
+    &copy; 2021 Sergi, Alberto and Carlos.
+  </footer>
+
 </body>
 
 </html>
 
 <!-- CREATE NEW FOLDER -->
 <div class="modal" tabindex="-1" id="myModal">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered text-white">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Create a new folder</h5>
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title"><img src="./assets/img/icons/folder-alert.svg" alt="" srcset=""> Create a new folder</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <form method="post" action="modules/createFolder.php?<?= isset($_GET['folder']) ? 'folder=' . $_GET['folder'] : "" ?>">
+      <div class="modal-body bg-primary">
+        <form method="post" action="modules/createFolder.php?<?=isset($_GET['folder']) ? 'folder=' . $_GET['folder'] : ""?>">
           <div class="mb-3">
             <label for="folder-name" class="col-form-label">Name for your new folder:</label>
-            <input type="text" class="form-control" name="folder-name" id="folder-name">
+            <input type="text" class="form-control" name="folder-name" id="folder-name" required>
           </div>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <div class="modal-footer bg-primary">
           <input type="submit" value="Create folder" name="create-folder-btn" class="btn btn-primary">
+          </div>
         </form>
       </div>
     </div>
@@ -132,19 +145,21 @@ if (!isset($_GET['folder'])) {
 
 <!-- RENAME FOLDER OR FILE -->
 <div class="modal" id="renameModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog text-white">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Rename File</h5>
+      <div class="modal-header bg-success">
+        <h5 class="modal-title"><img src="./assets/img/icons/edit-modal.svg" alt="" srcset=""> Rename</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form method="post" action="modules/editFile.php">
-        <div class="modal-body">
+        <div class="modal-body bg-success">
           <input id="oldNameInput" name="oldNameInput" hidden></input>
-          <input id="newName" name="newName" placeholder="input your desired name here"></input>
+          <label for="newName" class="col-form-label">New Name:</label>
+          <input id="newName" class="form-control" name="newName" placeholder="input your desired name here" required></input>
         </div>
-        <div class="modal-footer">
-          <button id="save-btn" type="submit" class="btn btn-primary">Save changes</button>
+        <div class="modal-footer bg-success">
+          <button id="save-btn" type="submit" class="btn btn-success">Save changes</button>
+        </div>
       </form>
     </div>
   </div>
@@ -154,44 +169,30 @@ if (!isset($_GET['folder'])) {
 
 <!-- MOVE FOLDER OR FILE TO TRASH -->
 <div class="modal" id="deleteModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog text-white bg-danger">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Delete File/Folder?</h5>
+      <div class="modal-header bg-danger">
+        <h5 class="modal-title"><img src="./assets/img/icons/alert.svg" alt=""> Delete</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form method="post" action="modules/moveToTrash.php">
-        <div class="modal-body">
-          <input id="currentNameInput" name="currentNameInput" placeholder="Input your desired name here"></input>
+      <?php isset($_GET['trash']) ? $url = 'modules/fullDelete.php' : $url = 'modules/moveToTrash.php'?>
+      <form method="post" action="<?=$url?>">
+        <div class="modal-body bg-danger">
+        <?php if (isset($_GET['trash'])) {
+    echo "<span>Are you sure you want to delete it permanently?</span>";
+} else {
+    echo "<span>Are you sure you want to trash it?</span>";
+}
+?>
+        <div id="nameFile"></div>
+          <input id="currentNameInput" name="currentNameInput" placeholder="Input your desired name here" hidden></input>
           <input id="filePath" name="filePath" placeholder="input your desired name here" hidden></input>
         </div>
-        <div class="modal-footer">
-          <button id="save-btn" type="submit" class="btn btn-primary">Confirm</button>
+        <div class="modal-footer bg-danger">
+          <button id="save-btn" type="submit" class="btn btn-danger">Confirm</button>
       </form>
     </div>
   </div>
 </div>
 </div>
 <!-- FIN DELETE FOLDER OR FILE -->
-
-<!-- FULLY DELETE FILE IN TRASH-->
-<div class="modal" id="deleteModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Delete File/Folder?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form method="post" action="modules/moveToTrash.php">
-        <div class="modal-body">
-          <input id="currentNameInput" name="currentNameInput" placeholder="Input your desired name here" disabled></input>
-          <input id="filePath" name="filePath" placeholder="input your desired name here" hidden></input>
-        </div>
-        <div class="modal-footer">
-          <button id="save-btn" type="submit" class="btn btn-primary">Confirm</button>
-      </form>
-    </div>
-  </div>
-</div>
-</div>
-<!-- FIN FULLY DELETE FILE IN TRASH -->

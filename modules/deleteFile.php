@@ -1,10 +1,10 @@
 <?php
 
-function deleteFile()
+/* function deleteFile()
 {
     if (isset($_POST['currentNameInput'])) {
         $deletePath = $_POST['deletePath'];
-        echo $deletePath;
+        //echo $deletePath;
         if (!is_dir($deletePath)) {
             unlink($deletePath);
         } else {
@@ -19,6 +19,15 @@ function deleteFile()
         $json = json_encode($person);
         return $json;
     }
-}
+} */
 
-deleteFile();
+// deleteFile();
+
+/* function fullDelete()
+{
+    $fileName = "trash123";
+    $sliceFileName = substr($fileName, 5);
+    echo $sliceFileName;
+}
+fullDelete();
+ */
