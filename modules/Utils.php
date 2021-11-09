@@ -82,3 +82,24 @@ function editFile()
         $mainPath = getcwd() . '/modules/uploads' . "/";
     }
 };
+
+
+function debug_to_console($data) {
+    $output = $data;
+    if (is_array($output))
+        $output = implode(',', $output);
+
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
+
+// ESTA FUNCIÓN TIENE QUE:
+// - BUSCAR SI HAY RESULTADOS
+// SI HAY RESULTADOS -> PRINT DE LOS RESULTADOS EN UN BLOQUE
+// - BORRAR DATOS DE LA BÚSQUEDA EN LA SESIÓN
+
+
+// DISPLAY MATCHING FILES WHEN SEARCHING
+
+// function displayMatchingFiles() {
+
+// }

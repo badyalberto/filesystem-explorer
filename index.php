@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 require_once './modules/Utils.php';
 require_once './modules/showFoldersFile.php';
 require_once './modules/breadcrumbs.php';
@@ -35,13 +38,14 @@ if (!isset($_GET['folder'])) {
 <body>
   <header class="d-flex py-4">
     <div class="w-25">
-      <img src="./assets/img/icons/logo.svg" alt="" class="w-25"> <span class="text-logo">File System</span>
+      <a href="<?=getcwd()?>"><img src="./assets/img/icons/logo.svg" alt="" class="w-25"> <span class="text-logo">File System</span></a>
     </div>
     <div>
-      <form method="GET" action="./modules/search.php">
+      <form method="POST" action="./modules/search.php">
         <label>Search</label>
-        <input type="text" name="search" />
-        <input type="submit" value="Search">
+        <input type="text" name="search-files" />
+        <input type="hidden" value="<?=getcwd()?>" name="folder-path" /> <!-- TODO: REVIEW ABSOLUTE PATH PENDING -->
+        <input type="submit" value="search">
       </form>
 
     </div>
@@ -79,9 +83,24 @@ if (!isset($_GET['folder'])) {
           </tr>
         </thead>
         <tbody>
-          <?php echo printFolders($tree) ?>
+          <?php
+            if (isset($_SESSION['matchingFiles'])) {
+              $queryArray = $_SESSION['matchingFiles'];
+              // var_dump($queryArray);
+              // die();
+              $queryTree = showQueryFiles($queryArray);
+              echo printFolders($queryTree);
+              unset($_SESSION['matchingFiles']);
+              unset($_SESSION['similarFiles']);
+            } else {
+              echo printFolders($tree);
+            }
+          ?>
         </tbody>
       </table>
+      <?php
+
+      ?>
     </article>
   </main>
 </body>

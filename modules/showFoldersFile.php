@@ -26,6 +26,32 @@ function showFoldersFile($path = '/')
     return $arrayTree;
 }
 
+function showQueryFiles($array) {
+
+    $arrayTree = [];
+
+    for ($i = 0; $i < count($array); $i++) {
+        $infoFile = $array[$i];
+        $cretionDate = date("d/m/Y", filectime($infoFile));
+        $editDate = date("d/m/Y", filemtime($infoFile));
+        $fullName = basename($infoFile);
+        $fullNameArray = explode(".", $fullName);
+        $name = $fullNameArray[0];
+        $type = 'folder';
+        $sizebytes = filesize($infoFile);
+        $size = formatBytes($sizebytes, 2);
+
+        if (isset($fullNameArray[1])) {
+            $type = $fullNameArray[1];
+        }
+
+        $json = json_encode(array('url' => $infoFile, 'name' => $name, 'creationDate' => $cretionDate, 'editDate' => $editDate, 'icon' => "./assets/img/icons/" . $type . ".svg", 'size' => $size));
+        array_push($arrayTree, $json);
+    }
+
+    return $arrayTree;
+}
+
 function printFolders($tree)
 {
     $html = '';
